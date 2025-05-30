@@ -1,0 +1,303 @@
+/* Chosen Palette: Fresh Blue (Primary: #2475a0, Secondary: #0b9cc8, Accent: #36bbe0, Light: #c9f3f2, Background: #EBF2F7, Text: #2c3e50) */
+/* Additional colors: White, Red, Amber (Yellow), Green */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #EBF2F7; /* Slightly vibrant light blue-gray */
+    color: #2c3e50; /* Dark blue-gray */
+    scroll-behavior: smooth;
+}
+.bg-primary-dark { background-color: #2475a0; } /* Darker Blue from palette */
+.bg-primary-light { background-color: #0b9cc8; } /* Medium Blue from palette for nav */
+.text-accent { color: #36bbe0; } /* Lighter Blue from palette */
+.border-accent-light { border-color: #c9f3f2; } /* Lightest color from palette for borders */
+.text-secondary-dark { color: #2c3e50; } /* Dark blue-gray for main text */
+.text-header-light { color: #ecf0f1; } /* Very light gray for inactive tab text */
+
+.material-tab {
+    padding: 12px 24px; /* Reduced padding for more compact header */
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    color: #ecf0f1; /* Very light gray for inactive text */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    position: relative; /* Essential for z-index to work */
+    z-index: 1; /* Default stacking order */
+}
+.material-tab:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #FFFFFF;
+    /* Reduced spread for a tighter shadow that doesn't bleed as much */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Slightly less prominent shadow on hover */
+    z-index: 2; /* Bring hovered tab to front, over default tabs */
+}
+.material-tab.active {
+    border-bottom-color: #023047; /* Amber/Orange for active tab */
+    color: #023047; /* Amber/Orange for active tab text */
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05); /* Zoom/pop-up effect */
+    /* Ensure the active shadow is distinct and on top */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3); /* More prominent shadow for active state */
+    z-index: 3; /* Bring active tab to the very front */
+}
+
+#tab-nav-container > div.flex { 
+    display: flex;
+    gap: 8px; 
+
+}
+
+.content-section {
+    display: none;
+    background-color: #FFFFFF;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-top: 24px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.content-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+.course-card {
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+.course-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    transform: translateY(-4px);
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    background-color: #FFFFFF;
+    margin: 3% auto;
+    padding: 32px;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    animation: fadeInScale 0.3s ease-out;
+}
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+.close-button {
+    color: #95a5a6;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.close-button:hover,
+.close-button:focus {
+    color: #2c3e50;
+    text-decoration: none;
+}
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px;
+    max-height: 450px;
+    background-color: #F9F7F7; /* Background from new palette */
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+ /* Hide nav buttons on small screens */
+@media (min-width: 768px) {
+    .chart-container {
+        height: 400px;
+    }
+}
+h2 {
+    color: #2475a0; /* Darker Blue from palette */
+    font-weight: 600;
+    font-size: 2.2em;
+    border-bottom: 3px solid #c9f3f2; /* Lightest color from palette for border */
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+}
+h3 {
+    color: #36bbe0; /* Lighter Blue from palette */
+    font-weight: 500;
+    font-size: 1.6em;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+.btn-primary {
+    background-color: #36bbe0; /* Lighter Blue from palette */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.btn-primary:hover {
+    background-color: #0b9cc8; /* Medium Blue from palette */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    font-size: 0.8em;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 9999px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+.badge-blue {
+    color: #fff;
+    background-color: #36bbe0; /* Lighter Blue from palette */
+}
+.badge-green {
+    color: #fff;
+    background-color: #27ae60; /* Green */
+}
+.badge-amber {
+    color: #2c3e50; /* Dark blue-gray */
+    background-color: #e69807; /* Amber/Orange */
+}
+.badge-red {
+    color: #fff;
+    background-color: #e74c3c; /* Red */
+}
+.timeline-item {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 30px;
+    border-left: 2px solid #0b9cc8; /* Medium Blue from palette for timeline line */
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #36bbe0; /* Lighter Blue from palette */
+    border: 3px solid #c9f3f2; /* Lightest color from palette for dot border */
+    z-index: 1;
+    box-shadow: 0 0 0 2px rgba(54, 187, 224, 0.3);
+}
+.timeline-item:last-child::after {
+    display: none;
+}
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: #e0e0e0;
+    position: relative;
+    z-index: 40;
+    overflow: visible;
+}
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #023047; /* Amber/Orange progress */
+    transition: width 0.3s ease-out;
+}
+.mobile-tip-popup {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #112D4E; /* Dark blue from palette */
+    color: #F9F7F7; /* Light background from palette */
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 0.9em;
+    z-index: 1001;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    max-width: 90%;
+    text-align: center;
+}
+.mobile-tip-popup.show {
+    display: block;
+    opacity: 1;
+}
+.nav-button {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #36bbe0; /* Lighter Blue from palette */
+    color: white;
+    padding: 12px 12px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+    z-index: 60;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    display: none; /* Hidden by default, shown on larger screens */
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px) { /* md breakpoint for Tailwind */
+    .nav-button {
+        display: flex; /* Display on larger screens */
+    }
+}
+
+.nav-button:hover {
+    background-color: #0b9cc8; /* Medium Blue from palette */
+    transform: translateY(-50%) scale(1.05);
+}
+.nav-button:disabled {
+    opacity: 0.9;
+    cursor: not-allowed;
+    background-color: #88dcec; /* Very Light Blue from palette for disabled state */
+    box-shadow: none;
+    transform: translateY(-50%);
+}
+.nav-button.left {
+    left: 16px;
+}
+.nav-button.right {
+    right: 16px;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+

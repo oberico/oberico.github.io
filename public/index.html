@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Formação DevOps</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Quicksand:wght@300..700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="min-h-screen">
+
+    <header class="bg-primary-dark text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold">Plano de Formação DevOps</h1>
+            </div>
+            <p class="text-xl md:text-2xl font-semibold mt-2 md:mt-0">Por Ramon</p>
+        </div>
+        <nav id="tab-nav-container" class="bg-primary-light rounded-t-2xl overflow-hidden whitespace-nowrap scrollbar-hide">
+            <div class="container mx-auto px-2 py-2 flex md:flex-row justify-between items-center">
+                <button class="material-tab active" data-tab-id="introducao">Introdução</button>
+                <button class="material-tab" data-tab-id="objetivos">Objetivos</button>
+                <button class="material-tab" data-tab-id="trilha">Trilha Proposta</button>
+                <button class="material-tab" data-tab-id="comparativo">Roadmap.sh</button>
+                <button class="material-tab" data-tab-id="custos">Custos</button>
+                <button class="material-tab" data-tab-id="comparativo-plataformas">Comparativo Plataformas</button>
+                <button class="material-tab" data-tab-id="agenda">Agenda (6 Meses)</button>
+                <button class="material-tab" data-tab-id="beneficios">Benefícios</button>
+                <button class="material-tab" data-tab-id="proximos-passos">Próximos Passos</button>
+            </div>
+        </nav>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 max-w-5xl">
+        <div id="introducao" class="content-section active">
+            <h2>O Caminho DevOps: Integrando Desenvolvimento e Operações</h2>
+            <p class="mb-4 text-lg leading-relaxed">Bem-vindo ao meu plano interativo, para formação DevOps. Esta aplicação apresenta uma visão detalhada da trilha de estudos proposta, focada em construir uma base sólida e habilidades práticas em DevOps em um <strong>programa intensivo de aproximadamente 6 meses</strong>.</p>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Conceito de DevOps:</strong> DevOps é uma cultura, um movimento e um conjunto de práticas que enfatizam a colaboração e comunicação entre desenvolvedores de software e profissionais de operações de TI (infraestrutura), enquanto automatizam o processo de entrega de software e mudanças na infraestrutura. O objetivo é construir, testar e liberar software de forma mais rápida, frequente e confiável.</p>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Objetivos do Estágio:</strong> O principal objetivo deste estágio construir uma base sólida nas tecnologias e conceitos utilizados em desenvolvimento e operações, e com isso propor melhorias e novas soluções nos projetos e infraestrutura da empresa.</p>
+            <p class="text-gray-700 leading-relaxed"><strong>Relevância para a Empresa:</strong> A adoção de práticas DevOps e a capacitação de profissionais nesta área são cruciais para a maior otimização de processos, automação de tarefas repetitivas, escalabilidade de sistemas e uma cultura de entrega contínua de valor aos clientes.</p>
+        </div>
+
+        <div id="objetivos" class="content-section">
+            <h2>Objetivos: Clareza e Direção</h2>
+            <p class="mb-4 text-lg leading-relaxed">Esta apresentação interativa visa fornecer uma visão clara e direcionada sobre o plano de formação DevOps, agora reestruturado para um período de 6 meses. Exploraremos cada componente da trilha para garantir um entendimento completo e facilitar a tomada de decisão.</p>
+            <ul class="list-disc list-inside space-y-3 text-gray-700 text-base">
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Análise da Trilha Proposta:</strong> Detalhamento dos conteúdos de cada curso e seu alinhamento estratégico com as necessidades e tecnologias da empresa.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Comparativo com o Mercado:</strong> Validação da trilha proposta em relação a roadmaps de referência da indústria, como o roadmap.sh, assegurando sua relevância e abrangência.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Levantamento de Custos:</strong> Apresentação transparente dos investimentos necessários para a formação, incluindo alternativas de plataformas e otimizações.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Proposta de Agenda (Cronograma):</strong> Um plano de estudos realista e adaptável para os 6 meses, considerando a carga horária do estágio e as demandas acadêmicas.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Próximos Passos:</strong> Definição das etapas seguintes para discussão, aprovação e início efetivo da jornada de aprendizado.</li>
+            </ul>
+        </div>
+
+        <div id="trilha" class="content-section">
+            <h2>A Trilha Proposta por Dennye: Uma Visão Geral</h2>
+            <p class="mb-4 text-lg leading-relaxed">A trilha de formação DevOps, sugerida por Dennye, compreende uma sequência de 16 cursos e treinamentos cuidadosamente selecionados. Considerando uma carga horária semanal máxima de <strong>20 horas</strong> das horas de estágio direcionadas exclusivamente aos estudos e meu background para um aprendizado mais rápido em alguns tópicos, o plano foi otimizado para um programa intensivo de <strong>6 meses</strong>, com duração total estimada em aproximadamente <strong>300 horas</strong> de conteúdo e atividades práticas, distribuídas em fases.</p>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Foco Principal:</strong></p>
+            <ul class="list-disc list-inside ml-4 mb-2 text-gray-700">
+                <li>Fundamentação (Linux, Redes)</li>
+                <li>Versionamento (Git, GitLab)</li>
+                <li>Conteinerização (Docker, Kubernetes)</li>
+                <li>Infraestrutura como Código (IaC com Terraform)</li>
+                <li>Automação (Ansible)</li>
+                <li>Cloud Computing (GCP/GKE)</li>
+                <li>Práticas de GitOps (ArgoCD)</li>
+            </ul>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Pontos Fortes da Proposta:</strong> Um dos principais destaques é o alto "Match com necessidades da empresa", onde avaliei a maioria dos cursos com notas de 9/10 ou 10/10, indicando um forte alinhamento com as tecnologias e desafios atuais da organização.</p>
+            <p class="mb-4 text-gray-700 leading-relaxed"><strong>Metodologia:</strong> A maioria dos cursos adota uma abordagem prática ("Hands-On"), essencial para a fixação do conhecimento e desenvolvimento de habilidades aplicáveis no dia a dia.</p>
+            <div id="course-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </div>
+
+        <div id="comparativo" class="content-section">
+            <h2>Validação com o Mercado: Roadmap.sh</h2>
+            <p class="mb-4 text-lg leading-relaxed">Para assegurar a relevância e abrangência da trilha proposta, realizamos um comparativo com o <a href="https://roadmap.sh/devops" target="_blank" class="text-accent hover:underline font-medium">roadmap.sh/devops</a>, uma referência global para trilhas de desenvolvimento profissional na área de tecnologia. Este comparativo nos permite validar as escolhas e identificar possíveis ajustes.</p>
+            
+            <h3 class="text-xl font-semibold mt-4 mb-2 text-secondary-dark">Fortes Alinhamentos:</h3>
+            <ul class="list-disc list-inside space-y-2 bg-green-50 p-5 rounded-lg shadow-sm text-gray-800">
+                <li><strong>Linux:</strong> Considerado prioritário em ambos, com cursos robustos na trilha proposta.</li>
+                <li><strong>Git/GitLab:</strong> Essenciais para controle de versão, bem cobertos.</li>
+                <li><strong>Docker/Kubernetes/Helm:</strong> Pilares da conteinerização e orquestração, com cursos dedicados e aprofundados.</li>
+                <li><strong>GCP/GKE:</strong> Foco no provedor de nuvem utilizado pela empresa, alinhado com as recomendações do roadmap.sh.</li>
+                <li><strong>Terraform/Ansible:</strong> Ferramentas líderes em Infraestrutura como Código e Automação de Configuração, presentes na trilha.</li>
+                <li><strong>ArgoCD (GitOps):</strong> Abordagem moderna para entrega contínua, contemplada na formação.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mt-8 mb-2 text-secondary-dark">Distinções e Ajustes Propostos:</h3>
+            <ul class="list-disc list-inside space-y-2 bg-yellow-50 p-5 rounded-lg shadow-sm text-gray-800">
+                <li><strong>Redes (CCNA):</strong> A trilha proposta oferece um aprofundamento maior com o curso CCNA, enquanto o roadmap.sh foca em conceitos gerais. Sugestão: Manter pela solidez, mas otimizar o tempo de estudo.</li>
+                <li><strong>Windows Server:</strong> Apresenta baixo "match" (2/10) com as necessidades atuais da empresa. Sugestão: Considerar como opcional ou remover da trilha principal para focar em tecnologias mais prioritárias.</li>
+                <li><strong>Virtualização (YouTube):</strong> Conteúdo mais básico. Sugestão: Manter como material complementar, dado o foco principal em contêineres.</li>
+                <li><strong>Aprofundamento Futuro:</strong> Identificada a necessidade de buscar cursos específicos em Monitoramento/Observabilidade avançada (além do que é coberto nos cursos atuais) e Secret Management em fases posteriores da formação.</li>
+            </ul>
+            <p class="mt-6 text-gray-700 leading-relaxed">Este comparativo reforça que a trilha proposta está bem fundamentada e alinhada com as melhores práticas e tecnologias do mercado DevOps, com flexibilidade para ajustes conforme a evolução das necessidades.</p>
+        </div>
+
+        <div id="custos" class="content-section">
+            <h2>Investimento na Formação: Análise de Custos</h2>
+            <p class="mb-4 text-lg leading-relaxed">Aqui apresento uma análise transparente dos custos estimados, considerando os valores dos cursos individuais e comparando com alternativas de plataformas por assinatura para um período de 6 meses. É importante notar que muitos cursos em plataformas como a Udemy frequentemente entram em promoção, o que pode reduzir significativamente o investimento. Alguns treinamentos estão com valores promocionais, <em>plataformas acessadas no dia 26/05/2025</em>, e podem não condizer com os preços atuais</p>
+
+            <h3 class="text-xl font-semibold mt-4 mb-2 text-secondary-dark">Custo Estimado da Trilha Proposta (Valores Avulsos):</h3>
+            <div class="overflow-x-auto mb-6">
+                <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Plataforma/Categoria</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Custo Estimado (R$)</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Observações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">LinuxTips (Cursos Avulsos)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 3.465,00</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Soma dos valores avulsos dos cursos indicados. Pode ter pacotes promocionais.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">Udemy (Cursos Avulsos)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 575,00</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Valores cheios; promoções podem reduzir drasticamente (até R$27,90 por curso).</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">YouTube / Google Cloud Skills Boost</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Gratuito*</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">*Custos podem surgir para certificações ou créditos de laboratório no Google Cloud.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">Alura (Assinatura Anual)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 1.308,00 - R$ 2.580,00</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Planos Plus (R$ 1.308,00) e Pro (R$ 2.580,00) com acesso a toda plataforma.</td>
+                        <tr class="bg-gray-50 font-semibold">
+                            <td class="py-3 px-4 border-b text-gray-900">Total Geral Avulso (Estimado)</td>
+                            <td class="py-3 px-4 border-b text-gray-900">~ R$ 6620,00</td> 
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Considerando valores cheios, sem descontos.</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="chart-container mb-6">
+                <canvas id="costChart"></canvas>
+            </div>
+            <p class="text-sm text-gray-600 mb-6 text-center">O gráfico acima ilustra a distribuição de custos estimados para a trilha, considerando a aquisição avulsa dos cursos.</p>
+        </div>
+
+        <div id="comparativo-plataformas" class="content-section">
+            <h2>Comparativo de Plataformas de Treinamento</h2>
+            <p class="mb-4 text-lg leading-relaxed">Para auxiliar na decisão de investimento, apresento um comparativo detalhado das principais plataformas de treinamento em DevOps, incluindo seus custos, alinhamento com as necessidades da empresa (nota) e observações relevantes.</p>
+
+            <div class="overflow-x-auto mb-6">
+                <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Plataforma</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Formação/Plano Principal</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Custo (R$)</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Nota (Match)</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Observações / Diferenciais</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">LinuxTips</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Cursos Avulsos (Trilha DevOps)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 3.465,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">10/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Certificados fortes, formações robustas com profissionais referência no mundo DevOps. Foco em tecnologias específicas.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Udemy</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Cursos Avulsos (CCNA, pfSense, etc.)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 574,70</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Variável (10/10 para CCNA/pfSense)</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Grande variedade de cursos, promoções frequentes. Acesso vitalício.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Google Cloud Skills Boost</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Trilhas GCP e GKE</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Gratuito*</td>
+                            <td class="py-3 px-4 border-b text-gray-800">10/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">*Conteúdo gratuito, labs e certificações podem ter custos. Conteúdo oficial Google.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Alura</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Assinatura Anual (Planos Plus, Pro, Ultra)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 1.308,00 - R$ 2.580,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">10/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Grade ampla, estruturada, bons instrutores. Conteúdo abrangente para DevOps, alinhado com empresa, prepara para certificações.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Linux Force Security</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Engenheiro de Redes e Sistemas Linux</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 990,00 - R$ 1.199,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">9/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">100h ao vivo, abrange base Linux e Redes com segurança. Formação DevOps gratuita na compra.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Linux Force Security</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Formação DevOps</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Grátis (com compra acima)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">7/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">50h gravadas. Não tem conteúdo de cloud e focado em outras tecnologias, mas "compensa" por ser grátis.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Rocketseat</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Assinatura Anual / Formação DevOps</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 1.096,70 - R$ 2.597,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">6/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Plataforma com muitas formações, mas a de DevOps é nova e menos aprofundada nas stacks da empresa.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">FullCycle</td>
+                            <td class="py-3 px-4 border-b text-gray-800">FullCycle 4.0 (Vitalício)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 3.408,00 - R$ 3.600,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">6/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Curso vitalício. Não tem conteúdo de cloud e não aprofunda muito nas stacks DevOps da empresa.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Techworld with Nana</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Cursos/Conteúdo</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 8.670,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">5/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Conteúdo caro e não bate 100% com o que é utilizado na empresa.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container mb-6">
+                <canvas id="comparativePlatformsChart"></canvas>
+            </div>
+            <p class="text-sm text-gray-600 mb-6 text-center">O gráfico acima ilustra o comparativo de custos entre todas as plataformas de treinamento, incluindo opções avulsas e de assinatura.</p>
+            <p class="mt-4 text-gray-700 leading-relaxed">Considerando o custo-benefício e o alinhamento de conteúdo, a escolha ideal de custo-benefício seria entre a combinação de <strong>trilhas gratuitas (YouTube, Google Cloud Skills Boost) + treinamentos pontuais da LinuxTips</strong> e a <strong>plataforma da Alura</strong>.</p>
+            <ul class="list-disc list-inside ml-4 mt-2 text-gray-700 leading-relaxed">
+                <li><strong>LinuxTips:</strong> Oferece certificados fortes e formações robustas com profissionais referência no mundo DevOps, excelente para aprofundamento em tecnologias específicas (Docker, Kubernetes, Terraform, ArgoCD).</li>
+                <li><strong>Alura:</strong> Possui uma grade bem ampla, estruturada e com bons instrutores. Seu conteúdo programático para DevOps é abrangente, robusto, com boas horas de duração, muitos materiais didáticos e atividades práticas. Os conteúdos estão quase 100% alinhados com os da empresa e ainda há conteúdos que preparam para certificações (nota 10/10), tudo por um preço acessível em seus planos anuais.</li>
+            </ul>
+            <p class="mt-4 text-gray-700 leading-relaxed">A decisão final dependerá do orçamento disponível e da preferência por uma plataforma mais centralizada e abrangente (Alura) ou uma abordagem mais modular com foco em especialistas (LinuxTips + Gratuitos).</p>
+        </div>
+
+        <div id="agenda" class="content-section">
+            <h2>Nosso Caminho: Plano de Estudos Detalhado (6 Meses)</h2>
+            <p class="mb-4 text-lg leading-relaxed">Agora, apresento uma proposta de cronograma para a trilha de formação DevOps estruturada para um período de <strong>6 meses</strong> intensivos. Este plano considera uma dedicação de aproximadamente <strong>20 horas semanais</strong>, incluindo estudos teóricos e laboratórios práticos condensados. Meu background em tecnologia permitirá um ritmo mais acelerado em alguns tópicos. O contrato de estágio é renovável, permitindo a continuidade do aprendizado e aprofundamento após este período inicial.</p>
+
+            <div class="space-y-8">
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Fase 1: Fundamentos Essenciais (Meses 1-2) - ~100 horas</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Construir uma base sólida em sistemas operacionais, redes e os conceitos primordiais de DevOps e controle de versão.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>Linux Tips: Linux Admin(~50h)</li>
+                        <li>Redes: Configurações e Segurança(~20h)</li>
+                        <li>Git (~12h)</li>
+                        <li>GitLab (~8h)</li>
+                        <li>Documentação e exercícios (~10h)</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Fase 2: Redes Aplicadas e Conteinerização (Meses 3-4) - ~100 horas</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Aprofundar em redes, dominar o uso de contêineres com Docker e Kubernetes, e iniciar a automação de configurações.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>pfSense (~10h)</li>
+                        <li>Descomplicando o Docker (~20h)</li>
+                        <li>Descomplicando o Kubernetes (~40h)</li>
+                        <li>Descomplicando o Helm (~7h)</li>
+                        <li>Ansible (~15h)</li>
+                        <li>DevOps Foundation (~8h)</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Fase 3: Cloud, IaC e Entrega Contínua (Meses 5-6) - ~100 horas</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Proficiência em infraestrutura de nuvem (GCP), automação de provisionamento e implementação de práticas avançadas de entrega contínua.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>GCP e GKE (~60h)</li>
+                        <li>Descomplicando o Terraform (~20h)</li>
+                        <li>Descomplicando GitOps no Kubernetes com Argo CD (~20h)</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Pós-Programa (Aprofundamento e Projetos Contínuos)</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Consolidar o conhecimento através de projetos práticos, buscar certificações relevantes e explorar tópicos avançados para especialização contínua, uma vez concluídos os 6 meses iniciais.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>Desenvolvimento de projetos práticos integrando as tecnologias aprendidas.</li>
+                        <li>Preparação e realização de certificações (ex: CKA, GCP Associate Cloud Engineer).</li>
+                        <li>Estudo aprofundado em Monitoramento Avançado (Prometheus, Grafana).</li>
+                        <li>Exploração de Service Mesh (ex: Istio, Linkerd).</li>
+                        <li>Observabilidade (ex: OpenTelemetry).</li>
+                        <li>Gerenciamento de Segredos (ex: HashiCorp Vault).</li>
+                        <li>(Opcional) Linux Engineer (LinuxTips) para maior profundidade em Linux.</li>
+                        <li>(Opcional) MCSA Windows Server 2016 - Azure Storage.</li>
+                        <li>(Opcional) Playlist Virtualização no YouTube.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-6 text-sm text-gray-600 leading-relaxed">Este cronograma é uma sugestão e pode ser ajustado conforme o progresso individual e as prioridades da empresa. A flexibilidade vai ser a chave para um aprendizado eficaz e alinhado com as demandas do estágio, visando a construção de uma base sólida em 6 meses.</p>
+        </div>
+
+        <div id="beneficios" class="content-section">
+            <h2>Benefícios Mútuos: Crescimento e Inovação</h2>
+            <p class="mb-4 text-lg leading-relaxed">O investimento nesta trilha de formação DevOps, agora otimizada para 6 meses, trará benefícios significativos tanto para a empresa quanto para o meu desenvolvimento profissional, fomentando um ciclo virtuoso de crescimento e inovação.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-3">Para a Empresa:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-800">
+                        <li><span class="font-medium">Capacitação Estratégica:</span> Profissional com base sólida e atualizada em tecnologias críticas (GCP, Kubernetes, Docker, Terraform, IaC).</li>
+                        <li><span class="font-medium">Eficiência Operacional:</span> Automação de processos e otimização de infraestrutura e redução de erros manuais.</li>
+                        <li><span class="font-medium">Inovação e Escalabilidade:</span> Habilidade para implementar novas soluções, gerenciar ambientes escaláveis e adotar melhores práticas de mercado.</li>
+                        <li><span class="font-medium">Segurança e Observabilidade:</span> Melhoria na postura de segurança e capacidade de monitoramento dos sistemas.</li>
+                        <li><span class="font-medium">Redução de Custos:</span> Potencial para otimizar o uso de recursos de nuvem e automatizar tarefas repetitivas.</li>
+                        <li><span class="font-medium">Fomento à Cultura DevOps:</span> Colaboração aprimorada entre equipes de desenvolvimento e operações.</li>
+                        <li><span class="font-medium">Retenção de Talento:</span> Profissional qualificado e alinhado com as necessidades futuras da empresa.</li>
+                    </ul>
+                </div>
+                <div class="bg-green-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-green-700 mb-3">Para o Mim:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-800">
+                        <li><span class="font-medium">Formação Sólida:</span> Base de conhecimento robusta e abrangente, alinhada com as mais altas demandas do mercado de DevOps.</li>
+                        <li><span class="font-medium">Experiência Prática:</span> Oportunidade ímpar de aplicação do aprendizado em um ambiente real e desafiador.</li>
+                        <li><span class="font-medium">Validação Profissional:</span> Obtenção de certificados e desenvolvimento de um portfólio de projetos concretos.</li>
+                        <li><span class="font-medium">Crescimento de Carreira:</span> Desenvolvimento de uma trajetória profissional sólida e promissora na área de DevOps, uma das mais valorizadas no setor de TI.</li>
+                        <li><span class="font-medium">Aquisição de Experiência:</span> Com um stack tecnológico moderno e relevante para o mercado.</li>
+                        <li><span class="font-medium">Crescimento Pessoal:</span> Através do aprendizado contínuo e da superação de desafios técnicos.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="proximos-passos" class="content-section">
+            <h2>Rumo à Ação: O Que Vem Agora?</h2>
+            <p class="mb-4 text-lg leading-relaxed">Com o plano de formação DevOps detalhado e otimizado para 6 meses, os próximos passos são cruciais para transformar esta proposta em realidade e iniciar uma jornada de aprendizado e contribuição valiosa para a empresa.</p>
+            <ul class="list-decimal list-inside space-y-4 text-gray-800">
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Análise e Aprovação:</strong> Apresentação formal deste plano ao supervisor e demais partes interessadas para discussão, feedback e aprovação final.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Definição do Orçamento e Escolha de Plataformas:</strong> Com base na análise de custos e nas alternativas apresentadas, definir o orçamento alocado para a formação e selecionar as plataformas de treinamento e cursos específicos que serão utilizados.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Início da Jornada de Aprendizado:</strong> Implementação da agenda de estudos proposta, com o início dos primeiros cursos e atividades práticas.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Acompanhamento Contínuo e Feedback:</strong> Estabelecimento de reuniões periódicas (semanais ou quinzenais) para acompanhamento do progresso, discussão de aprendizados, resolução de dúvidas e alinhamento com as atividades do estágio e as necessidades da empresa.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Abertura para Perguntas e Discussão:</strong> Este é o momento para esclarecer quaisquer dúvidas, receber sugestões e alinhar expectativas para garantir o sucesso desta iniciativa.</li>
+            </ul>
+            <p class="mt-6 font-semibold text-lg text-gray-800">Estou entusiasmado para iniciar esta jornada e certo do impacto positivo que esta formação trará para a empresa. Obrigado</p>
+        </div>
+
+        <div class="mobile-tip-popup" id="mobileTipPopup">
+            Arraste para as laterais navegar entre os tópicos!
+        </div>
+    </main>
+
+    <footer class="bg-primary-dark text-white text-center p-6 mt-12 shadow-inner">
+        <p class="text-lg">&copy; <span id="currentYear"></span> Plano de Formação DevOps. Desenvolvido por Ramon.</p>
+        <p class="text-sm opacity-90 mt-2">Caminhando para o futuro da infraestrutura e operações.</p>
+    </footer>
+
+    <button id="prevTabBtn" class="nav-button left">&#9664;</button>
+    <button id="nextTabBtn" class="nav-button right">&#9654;</button>
+
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalButton">&times;</span>
+            <h2 id="modalTitle" class="text-2xl font-bold mb-3 text-secondary-dark"></h2>
+            <p class="mb-1 text-gray-700"><strong>Plataforma:</strong> <span id="modalPlatform"></span></p>
+            <p class="mb-1 text-gray-700"><strong>Instrutor(es):</strong> <span id="modalInstructor"></span></p>
+            <p class="mb-1 text-gray-700"><strong>Duração Estimada (incl. Labs):</strong> <span id="modalDuration" class="badge badge-blue"></span></p>
+            <p class="mb-1 text-gray-700"><strong>Valor:</strong> <span id="modalCost" class="badge badge-green"></span></p>
+            <p class="mb-3 text-gray-700"><strong>Match com Necessidades da Empresa:</strong> <span id="modalMatch" class="badge badge-amber"></span></p>
+            
+            <h3 class="text-lg font-semibold mt-4 mb-1 text-secondary-dark">Resumo:</h3>
+            <p id="modalSummary" class="text-gray-700 mb-3 text-base leading-relaxed"></p>
+            
+            <h3 class="text-lg font-semibold mt-4 mb-1 text-secondary-dark">Ementa Detalhada:</h3>
+            <div id="modalEmenta" class="text-gray-700 mb-3 text-base max-h-64 overflow-y-auto bg-gray-50 p-4 rounded-lg border border-gray-200"></div>
+            
+            <h3 class="text-lg font-semibold mt-4 mb-1 text-secondary-dark">Opinião Pós Análise:</h3>
+            <p id="modalOpinion" class="text-gray-700 text-base italic bg-yellow-50 p-4 rounded-lg border border-yellow-200"></p>
+        </div>
+    </div>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/modals.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
