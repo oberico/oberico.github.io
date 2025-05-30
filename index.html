@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Formação DevOps</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Quicksand:wght@300..700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+        /* Chosen Palette: Fresh Blue (Primary: #2475a0, Secondary: #0b9cc8, Accent: #36bbe0, Light: #c9f3f2, Background: #EBF2F7, Text: #2c3e50) */
+        /* Additional colors: White, Red, Amber (Yellow), Green */
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #EBF2F7; /* Slightly vibrant light blue-gray */
+            color: #2c3e50; /* Dark blue-gray */
+            scroll-behavior: smooth;
+        }
+        .bg-primary-dark { background-color: #2475a0; } /* Darker Blue from palette */
+        .bg-primary-light { background-color: #0b9cc8; } /* Medium Blue from palette for nav */
+        .text-accent { color: #36bbe0; } /* Lighter Blue from palette */
+        .border-accent-light { border-color: #c9f3f2; } /* Lightest color from palette for borders */
+        .text-secondary-dark { color: #2c3e50; } /* Dark blue-gray for main text */
+        .text-header-light { color: #ecf0f1; } /* Very light gray for inactive tab text */
+
+        .material-tab {
+            padding: 12px 24px; /* Reduced padding for more compact header */
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            color: #ecf0f1; /* Very light gray for inactive text */
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+        }
+        .material-tab:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+        }
+        .material-tab.active {
+            border-bottom-color: #023047; /* Amber/Orange for active tab */
+            color: #023047; /* Amber/Orange for active tab text */
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05); /* Efeito de zoom/pop-up */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Sombra sutil para destacar */
+        }
+        
+        .content-section {
+            display: none;
+            background-color: #FFFFFF;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-top: 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .course-card {
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        .course-card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+            transform: translateY(-4px);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #FFFFFF;
+            margin: 3% auto;
+            padding: 32px;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            animation: fadeInScale 0.3s ease-out;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .close-button {
+            color: #95a5a6;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+            background-color: #F9F7F7; /* Background from new palette */
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+         /* Hide nav buttons on small screens */
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        h2 {
+            color: #2475a0; /* Darker Blue from palette */
+            font-weight: 600;
+            font-size: 2.2em;
+            border-bottom: 3px solid #c9f3f2; /* Lightest color from palette for border */
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+        h3 {
+            color: #36bbe0; /* Lighter Blue from palette */
+            font-weight: 500;
+            font-size: 1.6em;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        .btn-primary {
+            background-color: #36bbe0; /* Lighter Blue from palette */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            background-color: #0b9cc8; /* Medium Blue from palette */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3em 0.8em;
+            font-size: 0.8em;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border-radius: 9999px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+        .badge-blue {
+            color: #fff;
+            background-color: #36bbe0; /* Lighter Blue from palette */
+        }
+        .badge-green {
+            color: #fff;
+            background-color: #27ae60; /* Green */
+        }
+        .badge-amber {
+            color: #2c3e50; /* Dark blue-gray */
+            background-color: #e69807; /* Amber/Orange */
+        }
+        .badge-red {
+            color: #fff;
+            background-color: #e74c3c; /* Red */
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+            border-left: 2px solid #0b9cc8; /* Medium Blue from palette for timeline line */
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #36bbe0; /* Lighter Blue from palette */
+            border: 3px solid #c9f3f2; /* Lightest color from palette for dot border */
+            z-index: 1;
+            box-shadow: 0 0 0 2px rgba(54, 187, 224, 0.3);
+        }
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            position: relative;
+            z-index: 40;
+            overflow: visible;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #023047; /* Amber/Orange progress */
+            transition: width 0.3s ease-out;
+        }
+        .mobile-tip-popup {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #112D4E; /* Dark blue from palette */
+            color: #F9F7F7; /* Light background from palette */
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-size: 0.9em;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            max-width: 90%;
+            text-align: center;
+        }
+        .mobile-tip-popup.show {
+            display: block;
+            opacity: 1;
+        }
+        .nav-button {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #36bbe0; /* Lighter Blue from palette */
+            color: white;
+            padding: 12px 12px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+            z-index: 60;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            display: none; /* Hidden by default, shown on larger screens */
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width: 768px) { /* md breakpoint for Tailwind */
+            .nav-button {
+                display: flex; /* Display on larger screens */
+            }
+        }
+
+        .nav-button:hover {
+            background-color: #0b9cc8; /* Medium Blue from palette */
+            transform: translateY(-50%) scale(1.05);
+        }
+        .nav-button:disabled {
+            opacity: 0.9;
+            cursor: not-allowed;
+            background-color: #88dcec; /* Very Light Blue from palette for disabled state */
+            box-shadow: none;
+            transform: translateY(-50%);
+        }
+        .nav-button.left {
+            left: 16px;
+        }
+        .nav-button.right {
+            right: 16px;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <header class="bg-primary-dark text-white  shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center"> <div>
+                <h1 class="text-3xl md:text-4xl font-bold">Plano de Formação DevOps</h1>
+            </div>
+            <p class="text-xl md:text-2xl font-semibold mt-2 md:mt-0">Por Ramon</p>
+        </div>
+        <nav id="tab-nav-container" class="bg-primary-light rounded-t-2xl overflow-hidden whitespace-nowrap scrollbar-hide">
+            <div class="container m-2 px-2 flex">
+                <button class="material-tab active" data-tab-id="introducao" onclick="openTab(event)">Introdução</button>
+                <button class="material-tab" data-tab-id="objetivos" onclick="openTab(event)">Objetivos</button>
+                <button class="material-tab" data-tab-id="trilha" onclick="openTab(event)">Trilha Proposta</button>
+                <button class="material-tab" data-tab-id="comparativo" onclick="openTab(event)">Roadmap.sh</button>
+                <button class="material-tab" data-tab-id="custos" onclick="openTab(event)">Custos</button>
+                <button class="material-tab" data-tab-id="comparativo-plataformas" onclick="openTab(event)">Comparativo Plataformas</button>
+                <button class="material-tab" data-tab-id="agenda" onclick="openTab(event)">Agenda (6 Meses)</button>
+                <button class="material-tab" data-tab-id="beneficios" onclick="openTab(event)">Benefícios</button>
+                <button class="material-tab" data-tab-id="proximos-passos" onclick="openTab(event)">Próximos Passos</button>
+            </div>
+        </nav>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 max-w-5xl"> <div id="introducao" class="content-section active">
+            <h2>O Caminho DevOps: Integrando Desenvolvimento e Operações</h2>
+            <p class="mb-4 text-lg leading-relaxed">Bem-vindo ao meu plano interativo, para formação DevOps. Esta aplicação apresenta uma visão detalhada da trilha de estudos proposta, focada em construir uma base sólida e habilidades práticas em DevOps em um <strong>programa intensivo de aproximadamente 6 meses</strong>.</p>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Conceito de DevOps:</strong> DevOps é uma cultura, um movimento e um conjunto de práticas que enfatizam a colaboração e comunicação entre desenvolvedores de software e profissionais de operações de TI (infraestrutura), enquanto automatizam o processo de entrega de software e mudanças na infraestrutura. O objetivo é construir, testar e liberar software de forma mais rápida, frequente e confiável.</p>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Objetivos do Estágio:</strong> O principal objetivo deste estágio construir uma base sólida nas tecnologias e conceitos utilizados em desenvolvimento e operações, e com isso propor melhorias e novas soluções nos projetos e infraestrutura da empresa.</p>
+            <p class="text-gray-700 leading-relaxed"><strong>Relevância para a Empresa:</strong> A adoção de práticas DevOps e a capacitação de profissionais nesta área são cruciais para a maior otimização de processos, automação de tarefas repetitivas, escalabilidade de sistemas e uma cultura de entrega contínua de valor aos clientes.</p>
+        </div>
+
+        <div id="objetivos" class="content-section">
+            <h2>Objetivos: Clareza e Direção</h2>
+            <p class="mb-4 text-lg leading-relaxed">Esta apresentação interativa visa fornecer uma visão clara e direcionada sobre o plano de formação DevOps, agora reestruturado para um período de 6 meses. Exploraremos cada componente da trilha para garantir um entendimento completo e facilitar a tomada de decisão.</p>
+            <ul class="list-disc list-inside space-y-3 text-gray-700 text-base">
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Análise da Trilha Proposta:</strong> Detalhamento dos conteúdos de cada curso e seu alinhamento estratégico com as necessidades e tecnologias da empresa.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Comparativo com o Mercado:</strong> Validação da trilha proposta em relação a roadmaps de referência da indústria, como o roadmap.sh, assegurando sua relevância e abrangência.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Levantamento de Custos:</strong> Apresentação transparente dos investimentos necessários para a formação, incluindo alternativas de plataformas e otimizações.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Proposta de Agenda (Cronograma):</strong> Um plano de estudos realista e adaptável para os 6 meses, considerando a carga horária do estágio e as demandas acadêmicas.</li>
+                <li class="p-2 bg-blue-50 rounded-md shadow-sm"><strong>Próximos Passos:</strong> Definição das etapas seguintes para discussão, aprovação e início efetivo da jornada de aprendizado.</li>
+            </ul>
+        </div>
+
+        <div id="trilha" class="content-section">
+            <h2>A Trilha Proposta por Dennye: Uma Visão Geral</h2>
+            <p class="mb-4 text-lg leading-relaxed">A trilha de formação DevOps, sugerida por Dennye, compreende uma sequência de 16 cursos e treinamentos cuidadosamente selecionados. Considerando uma carga horária semanal máxima de <strong>20 horas</strong> das horas de estágio direcionadas exclusivamente aos estudos e meu background para um aprendizado mais rápido em alguns tópicos, o plano foi otimizado para um programa intensivo de <strong>6 meses</strong>, com duração total estimada em aproximadamente <strong>300 horas</strong> de conteúdo e atividades práticas, distribuídas em fases.</p>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Foco Principal:</strong></p>
+            <ul class="list-disc list-inside ml-4 mb-2 text-gray-700">
+                <li>Fundamentação (Linux, Redes)</li>
+                <li>Versionamento (Git, GitLab)</li>
+                <li>Conteinerização (Docker, Kubernetes)</li>
+                <li>Infraestrutura como Código (IaC com Terraform)</li>
+                <li>Automação (Ansible)</li>
+                <li>Cloud Computing (GCP/GKE)</li>
+                <li>Práticas de GitOps (ArgoCD)</li>
+            </ul>
+            <p class="mb-2 text-gray-700 leading-relaxed"><strong>Pontos Fortes da Proposta:</strong> Um dos principais destaques é o alto "Match com necessidades da empresa", onde avaliei a maioria dos cursos com notas de 9/10 ou 10/10, indicando um forte alinhamento com as tecnologias e desafios atuais da organização.</p>
+            <p class="mb-4 text-gray-700 leading-relaxed"><strong>Metodologia:</strong> A maioria dos cursos adota uma abordagem prática ("Hands-On"), essencial para a fixação do conhecimento e desenvolvimento de habilidades aplicáveis no dia a dia.</p>
+            <div id="course-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </div>
+
+        <div id="comparativo" class="content-section">
+            <h2>Validação com o Mercado: Roadmap.sh</h2>
+            <p class="mb-4 text-lg leading-relaxed">Para assegurar a relevância e abrangência da trilha proposta, realizamos um comparativo com o <a href="https://roadmap.sh/devops" target="_blank" class="text-accent hover:underline font-medium">roadmap.sh/devops</a>, uma referência global para trilhas de desenvolvimento profissional na área de tecnologia. Este comparativo nos permite validar as escolhas e identificar possíveis ajustes.</p>
+            
+            <h3 class="text-xl font-semibold mt-4 mb-2 text-secondary-dark">Fortes Alinhamentos:</h3>
+            <ul class="list-disc list-inside space-y-2 bg-green-50 p-5 rounded-lg shadow-sm text-gray-800">
+                <li><strong>Linux:</strong> Considerado prioritário em ambos, com cursos robustos na trilha proposta.</li>
+                <li><strong>Git/GitLab:</strong> Essenciais para controle de versão, bem cobertos.</li>
+                <li><strong>Docker/Kubernetes/Helm:</strong> Pilares da conteinerização e orquestração, com cursos dedicados e aprofundados.</li>
+                <li><strong>GCP/GKE:</strong> Foco no provedor de nuvem utilizado pela empresa, alinhado com as recomendações do roadmap.sh.</li>
+                <li><strong>Terraform/Ansible:</strong> Ferramentas líderes em Infraestrutura como Código e Automação de Configuração, presentes na trilha.</li>
+                <li><strong>ArgoCD (GitOps):</strong> Abordagem moderna para entrega contínua, contemplada na formação.</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mt-8 mb-2 text-secondary-dark">Distinções e Ajustes Propostos:</h3>
+            <ul class="list-disc list-inside space-y-2 bg-yellow-50 p-5 rounded-lg shadow-sm text-gray-800">
+                <li><strong>Redes (CCNA):</strong> A trilha proposta oferece um aprofundamento maior com o curso CCNA, enquanto o roadmap.sh foca em conceitos gerais. Sugestão: Manter pela solidez, mas otimizar o tempo de estudo.</li>
+                <li><strong>Windows Server:</strong> Apresenta baixo "match" (2/10) com as necessidades atuais da empresa. Sugestão: Considerar como opcional ou remover da trilha principal para focar em tecnologias mais prioritárias.</li>
+                <li><strong>Virtualização (YouTube):</strong> Conteúdo mais básico. Sugestão: Manter como material complementar, dado o foco principal em contêineres.</li>
+                <li><strong>Aprofundamento Futuro:</strong> Identificada a necessidade de buscar cursos específicos em Monitoramento/Observabilidade avançada (além do que é coberto nos cursos atuais) e Secret Management em fases posteriores da formação.</li>
+            </ul>
+            <p class="mt-6 text-gray-700 leading-relaxed">Este comparativo reforça que a trilha proposta está bem fundamentada e alinhada com as melhores práticas e tecnologias do mercado DevOps, com flexibilidade para ajustes conforme a evolução das necessidades.</p>
+        </div>
+
+        <div id="custos" class="content-section">
+            <h2>Investimento na Formação: Análise de Custos</h2>
+            <p class="mb-4 text-lg leading-relaxed">Aqui apresento uma análise transparente dos custos estimados, considerando os valores dos cursos individuais e comparando com alternativas de plataformas por assinatura para um período de 6 meses. É importante notar que muitos cursos em plataformas como a Udemy frequentemente entram em promoção, o que pode reduzir significativamente o investimento. Alguns treinamentos estão com valores promocionais, <em>plataformas acessadas no dia 26/05/2025</em>, e podem não condizer com os preços atuais</p>
+
+            <h3 class="text-xl font-semibold mt-4 mb-2 text-secondary-dark">Custo Estimado da Trilha Proposta (Valores Avulsos):</h3>
+            <div class="overflow-x-auto mb-6">
+                <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Plataforma/Categoria</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Custo Estimado (R$)</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Observações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">LinuxTips (Cursos Avulsos)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 3.465,00</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Soma dos valores avulsos dos cursos indicados. Pode ter pacotes promocionais.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">Udemy (Cursos Avulsos)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 575,00</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Valores cheios; promoções podem reduzir drasticamente (até R$27,90 por curso).</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">YouTube / Google Cloud Skills Boost</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Gratuito*</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">*Custos podem surgir para certificações ou créditos de laboratório no Google Cloud.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800">Alura (Assinatura Anual)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 1.308,00 - R$ 2.580,00</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Planos Plus (R$ 1.308,00) e Pro (R$ 2.580,00) com acesso a toda plataforma.</td>
+                        <tr class="bg-gray-50 font-semibold">
+                            <td class="py-3 px-4 border-b text-gray-900">Total Geral Avulso (Estimado)</td>
+                            <td class="py-3 px-4 border-b text-gray-900">~ R$ 6620,00</td> 
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Considerando valores cheios, sem descontos.</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="chart-container mb-6">
+                <canvas id="costChart"></canvas>
+            </div>
+            <p class="text-sm text-gray-600 mb-6 text-center">O gráfico acima ilustra a distribuição de custos estimados para a trilha, considerando a aquisição avulsa dos cursos.</p>
+        </div>
+
+        <div id="comparativo-plataformas" class="content-section">
+            <h2>Comparativo de Plataformas de Treinamento</h2>
+            <p class="mb-4 text-lg leading-relaxed">Para auxiliar na decisão de investimento, apresento um comparativo detalhado das principais plataformas de treinamento em DevOps, incluindo seus custos, alinhamento com as necessidades da empresa (nota) e observações relevantes.</p>
+
+            <div class="overflow-x-auto mb-6">
+                <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Plataforma</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Formação/Plano Principal</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Custo (R$)</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Nota (Match)</th>
+                            <th class="py-3 px-4 border-b text-left text-sm font-semibold text-gray-700 uppercase">Observações / Diferenciais</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">LinuxTips</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Cursos Avulsos (Trilha DevOps)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 3.465,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">10/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Certificados fortes, formações robustas com profissionais referência no mundo DevOps. Foco em tecnologias específicas.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Udemy</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Cursos Avulsos (CCNA, pfSense, etc.)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 574,70</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Variável (10/10 para CCNA/pfSense)</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Grande variedade de cursos, promoções frequentes. Acesso vitalício.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Google Cloud Skills Boost</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Trilhas GCP e GKE</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Gratuito*</td>
+                            <td class="py-3 px-4 border-b text-gray-800">10/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">*Conteúdo gratuito, labs e certificações podem ter custos. Conteúdo oficial Google.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Alura</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Assinatura Anual (Planos Plus, Pro, Ultra)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 1.308,00 - R$ 2.580,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">10/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Grade ampla, estruturada, bons instrutores. Conteúdo abrangente para DevOps, alinhado com empresa, prepara para certificações.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Linux Force Security</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Engenheiro de Redes e Sistemas Linux</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 990,00 - R$ 1.199,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">9/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">100h ao vivo, abrange base Linux e Redes com segurança. Formação DevOps gratuita na compra.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Linux Force Security</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Formação DevOps</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Grátis (com compra acima)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">7/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">50h gravadas. Não tem conteúdo de cloud e focado em outras tecnologias, mas "compensa" por ser grátis.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Rocketseat</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Assinatura Anual / Formação DevOps</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 1.096,70 - R$ 2.597,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">6/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Plataforma com muitas formações, mas a de DevOps é nova e menos aprofundada nas stacks da empresa.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">FullCycle</td>
+                            <td class="py-3 px-4 border-b text-gray-800">FullCycle 4.0 (Vitalício)</td>
+                            <td class="py-3 px-4 border-b text-gray-800">R$ 3.408,00 - R$ 3.600,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">6/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Curso vitalício. Não tem conteúdo de cloud e não aprofunda muito nas stacks DevOps da empresa.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b text-gray-800 font-semibold">Techworld with Nana</td>
+                            <td class="py-3 px-4 border-b text-gray-800">Cursos/Conteúdo</td>
+                            <td class="py-3 px-4 border-b text-gray-800">~ R$ 8.670,00</td>
+                            <td class="py-3 px-4 border-b text-gray-800">5/10</td>
+                            <td class="py-3 px-4 border-b text-gray-600 text-sm">Conteúdo caro e não bate 100% com o que é utilizado na empresa.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-container mb-6">
+                <canvas id="comparativePlatformsChart"></canvas>
+            </div>
+            <p class="text-sm text-gray-600 mb-6 text-center">O gráfico acima ilustra o comparativo de custos entre todas as plataformas de treinamento, incluindo opções avulsas e de assinatura.</p>
+linhamento de conteúdo, a escolha ideal de custo-benefício seria entre a combinação de <strong>trilhas gratuitas (YouTube, Google Cloud Skills Boost) + treinamentos pontuais da LinuxTips</strong> e a <strong>plataforma da Alura</strong>.</p>
+            <ul class="list-disc list-inside ml-4 mt-2 text-gray-700 leading-relaxed">
+            <ul class="list-disc list-inside ml-4 mt-2 text-gray-700 leading-relaxed">
+                <li><strong>LinuxTips:</strong> Oferece certificados fortes e formações robustas com profissionais referência no mundo DevOps, excelente para aprofundamento em tecnologias específicas (Docker, Kubernetes, Terraform, ArgoCD).</li>
+                <li><strong>Alura:</strong> Possui uma grade bem ampla, estruturada e com bons instrutores. Seu conteúdo programático para DevOps é abrangente, robusto, com boas horas de duração, muitos materiais didáticos e atividades práticas. Os conteúdos estão quase 100% alinhados com os da empresa e ainda há conteúdos que preparam para certificações (nota 10/10), tudo por um preço acessível em seus planos anuais.</li>
+            </ul>
+            <p class="mt-4 text-gray-700 leading-relaxed">A decisão final dependerá do orçamento disponível e da preferência por uma plataforma mais centralizada e abrangente (Alura) ou uma abordagem mais modular com foco em especialistas (LinuxTips + Gratuitos).</p>
+        </div>
+
+        <div id="agenda" class="content-section">
+            <h2>Nosso Caminho: Plano de Estudos Detalhado (6 Meses)</h2>
+            <p class="mb-4 text-lg leading-relaxed">Agora, apresento uma proposta de cronograma para a trilha de formação DevOps estruturada para um período de <strong>6 meses</strong> intensivos. Este plano considera uma dedicação de aproximadamente <strong>20 horas semanais</strong>, incluindo estudos teóricos e laboratórios práticos condensados. Meu background em tecnologia permitirá um ritmo mais acelerado em alguns tópicos. O contrato de estágio é renovável, permitindo a continuidade do aprendizado e aprofundamento após este período inicial.</p>
+
+            <div class="space-y-8">
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Fase 1: Fundamentos Essenciais (Meses 1-2) - ~100 horas</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Construir uma base sólida em sistemas operacionais, redes e os conceitos primordiais de DevOps e controle de versão.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>Linux Tips: Linux Admin(~50h)</li>
+                        <li>Redes: Configurações e Segurança(~20h)</li>
+                        <li>Git (~12h)</li>
+                        <li>GitLab (~8h)</li>
+                        <li>Documentação e exercícios (~10h)</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Fase 2: Redes Aplicadas e Conteinerização (Meses 3-4) - ~100 horas</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Aprofundar em redes, dominar o uso de contêineres com Docker e Kubernetes, e iniciar a automação de configurações.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>pfSense (~10h)</li>
+                        <li>Descomplicando o Docker (~20h)</li>
+                        <li>Descomplicando o Kubernetes (~40h)</li>
+                        <li>Descomplicando o Helm (~7h)</li>
+                        <li>Ansible (~15h)</li>
+                        <li>DevOps Foundation (~8h)</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Fase 3: Cloud, IaC e Entrega Contínua (Meses 5-6) - ~100 horas</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Proficiência em infraestrutura de nuvem (GCP), automação de provisionamento e implementação de práticas avançadas de entrega contínua.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>GCP e GKE (~60h)</li>
+                        <li>Descomplicando o Terraform (~20h)</li>
+                        <li>Descomplicando GitOps no Kubernetes com Argo CD (~20h)</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-2">Pós-Programa (Aprofundamento e Projetos Contínuos)</h3>
+                    <p class="mb-2 text-gray-700"><strong>Objetivo:</strong> Consolidar o conhecimento através de projetos práticos, buscar certificações relevantes e explorar tópicos avançados para especialização contínua, uma vez concluídos os 6 meses iniciais.</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1 text-gray-700">
+                        <li>Desenvolvimento de projetos práticos integrando as tecnologias aprendidas.</li>
+                        <li>Preparação e realização de certificações (ex: CKA, GCP Associate Cloud Engineer).</li>
+                        <li>Estudo aprofundado em Monitoramento Avançado (Prometheus, Grafana).</li>
+                        <li>Exploração de Service Mesh (ex: Istio, Linkerd).</li>
+                        <li>Observabilidade (ex: OpenTelemetry).</li>
+                        <li>Gerenciamento de Segredos (ex: HashiCorp Vault).</li>
+                        <li>(Opcional) Linux Engineer (LinuxTips) para maior profundidade em Linux.</li>
+                        <li>(Opcional) MCSA Windows Server 2016 - Azure Storage.</li>
+                        <li>(Opcional) Playlist Virtualização no YouTube.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-6 text-sm text-gray-600 leading-relaxed">Este cronograma é uma sugestão e pode ser ajustado conforme o progresso individual e as prioridades da empresa. A flexibilidade vai ser a chave para um aprendizado eficaz e alinhado com as demandas do estágio, visando a construção de uma base sólida em 6 meses.</p>
+        </div>
+
+        <div id="beneficios" class="content-section">
+            <h2>Benefícios Mútuos: Crescimento e Inovação</h2>
+            <p class="mb-4 text-lg leading-relaxed">O investimento nesta trilha de formação DevOps, agora otimizada para 6 meses, trará benefícios significativos tanto para a empresa  quanto para o meu desenvolvimento profissional, fomentando um ciclo virtuoso de crescimento e inovação.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-secondary-dark mb-3">Para a Empresa:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-800">
+                        <li><span class="font-medium">Capacitação Estratégica:</span> Profissional com base sólida e atualizada em tecnologias críticas (GCP, Kubernetes, Docker, Terraform, IaC).</li>
+                        <li><span class="font-medium">Eficiência Operacional:</span> Automação de processos e otimização de infraestrutura e redução de erros manuais.</li>
+                        <li><span class="font-medium">Inovação e Escalabilidade:</span> Habilidade para implementar novas soluções, gerenciar ambientes escaláveis e adotar melhores práticas de mercado.</li>
+                        <li><span class="font-medium">Segurança e Observabilidade:</span> Melhoria na postura de segurança e capacidade de monitoramento dos sistemas.</li>
+                        <li><span class="font-medium">Redução de Custos:</span> Potencial para otimizar o uso de recursos de nuvem e automatizar tarefas repetitivas.</li>
+                        <li><span class="font-medium">Fomento à Cultura DevOps:</span> Colaboração aprimorada entre equipes de desenvolvimento e operações.</li>
+                        <li><span class="font-medium">Retenção de Talento:</span> Profissional qualificado e alinhado com as necessidades futuras da empresa.</li>
+                    </ul>
+                </div>
+                <div class="bg-green-50 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-green-700 mb-3">Para o Mim:</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-800">
+                        <li><span class="font-medium">Formação Sólida:</span> Base de conhecimento robusta e abrangente, alinhada com as mais altas demandas do mercado de DevOps.</li>
+                        <li><span class="font-medium">Experiência Prática:</span> Oportunidade ímpar de aplicação do aprendizado em um ambiente real e desafiador.</li>
+                        <li><span class="font-medium">Validação Profissional:</span> Obtenção de certificados e desenvolvimento de um portfólio de projetos concretos.</li>
+                        <li><span class="font-medium">Crescimento de Carreira:</span> Desenvolvimento de uma trajetória profissional sólida e promissora na área de DevOps, uma das mais valorizadas no setor de TI.</li>
+                        <li><span class="font-medium">Aquisição de Experiência:</span> Com um stack tecnológico moderno e relevante para o mercado.</li>
+                        <li><span class="font-medium">Crescimento Pessoal:</span> Através do aprendizado contínuo e da superação de desafios técnicos.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="proximos-passos" class="content-section">
+            <h2>Rumo à Ação: O Que Vem Agora?</h2>
+            <p class="mb-4 text-lg leading-relaxed">Com o plano de formação DevOps detalhado e otimizado para 6 meses, os próximos passos são cruciais para transformar esta proposta em realidade e iniciar uma jornada de aprendizado e contribuição valiosa para a empresa.</p>
+            <ul class="list-decimal list-inside space-y-4 text-gray-800">
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Análise e Aprovação:</strong> Apresentação formal deste plano ao supervisor e demais partes interessadas para discussão, feedback e aprovação final.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Definição do Orçamento e Escolha de Plataformas:</strong> Com base na análise de custos e nas alternativas apresentadas, definir o orçamento alocado para a formação e selecionar as plataformas de treinamento e cursos específicos que serão utilizados.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Início da Jornada de Aprendizado:</strong> Implementação da agenda de estudos proposta, com o início dos primeiros cursos e atividades práticas.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Acompanhamento Contínuo e Feedback:</strong> Estabelecimento de reuniões periódicas (semanais ou quinzenais) para acompanhamento do progresso, discussão de aprendizados, resolução de dúvidas e alinhamento com as atividades do estágio e as necessidades da empresa.</li>
+                <li class="p-4 bg-gray-100 rounded-md shadow-sm">
+                    <strong class="text-secondary-dark">Abertura para Perguntas e Discussão:</strong> Este é o momento para esclarecer quaisquer dúvidas, receber sugestões e alinhar expectativas para garantir o sucesso desta iniciativa.</li>
+            </ul>
+            <p class="mt-6 font-semibold text-lg text-gray-800">Estou entusiasmado para iniciar esta jornada e certo do impacto positivo que esta formação trará para a empresa. Obrigado.</p>
+        </div>
+
+        <div class="mobile-tip-popup" id="mobileTipPopup">
+            Arraste para as laterais navegar entre os tópicos!
+        </div>
+    </main>
+
+    <footer class="bg-primary-dark text-white text-center p-6 mt-12 shadow-inner">
+        <p class="text-lg">&copy; <span id="currentYear"></span> Plano de Formação DevOps. Desenvolvido por Ramon.</p>
+        <p class="text-sm opacity-90 mt-2">Caminhando para o futuro da infraestrutura e operações.</p>
+    </footer>
+
+    <button id="prevTabBtn" class="nav-button left">&#9664;</button>
+    <button id="nextTabBtn" class="nav-button right">&#9654;</button>
+
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" class="text-2xl font-bold mb-3 text-secondary-dark"></h2>
+            <p class="mb-1 text-gray-700"><strong>Plataforma:</strong> <span id="modalPlatform"></span></p>
+            <p class="mb-1 text-gray-700"><strong>Instrutor(es):</strong> <span id="modalInstructor"></span></p>
+            <p class="mb-1 text-gray-700"><strong>Duração Estimada (incl. Labs):</strong> <span id="modalDuration" class="badge badge-blue"></span></p>
+            <p class="mb-1 text-gray-700"><strong>Valor:</strong> <span id="modalCost" class="badge badge-green"></span></p>
+            <p class="mb-3 text-gray-700"><strong>Match com Necessidades da Empresa:</strong> <span id="modalMatch" class="badge badge-amber"></span></p>
+            
+            <h3 class="text-lg font-semibold mt-4 mb-1 text-secondary-dark">Resumo:</h3>
+            <p id="modalSummary" class="text-gray-700 mb-3 text-base leading-relaxed"></p>
+            
+            <h3 class="text-lg font-semibold mt-4 mb-1 text-secondary-dark">Ementa Detalhada:</h3>
+            <div id="modalEmenta" class="text-gray-700 mb-3 text-base max-h-64 overflow-y-auto bg-gray-50 p-4 rounded-lg border border-gray-200"></div>
+            
+            <h3 class="text-lg font-semibold mt-4 mb-1 text-secondary-dark">Opinião Pós Análise:</h3>
+            <p id="modalOpinion" class="text-gray-700 text-base italic bg-yellow-50 p-4 rounded-lg border border-yellow-200"></p>
+        </div>
+    </div>
+
+<script>
+    const coursesData = [
+        {
+            id: 'devops-foundation',
+            title: 'Descomplicando o DevOps',
+            platform: 'LinuxTips',
+            instructor: 'Camila Martins',
+            duration: '~8h', 
+            cost: 'R$639,00',
+            match: '9/10',
+            summary: 'Integrar desenvolvimento e operações para otimizar processos usando Terraform, Docker, Kubernetes e soluções de CI/CD.',
+            ementa: [
+                "<strong>Módulo 1 - Docker, Dockerfile e Docker-compose:</strong> Introdução a comandos básicos, criação de imagens Docker, dockerização de aplicações, multistage build, docker-compose, conceitos de APIs e REST.",
+                "<strong>Módulo 2 - Infraestrutura como código com Terraform:</strong> Criação de um cluster com Terraform, fundamentos de IaC.",
+                "<strong>Módulo 3 - Kubernetes com GKE na GCP:</strong> Introdução ao Kubernetes e GKE, componentes e arquitetura, conceitos de nuvem (Cloud Build, Artifact Registry).",
+                "<strong>Módulo 4 - CI/CD e Pipeline com Cloud Build, Cloud Run, GKE, Docker, Github e Terraform:</strong> Entrega e Implementação contínuas, ferramentas GCP, subir aplicação em cluster Kubernetes, IaC e conteinerização.",
+                "<strong>Módulo 5 - Monitoramento com Prometheus, Datadog e Grafana:</strong> Monitoramento, extração de métricas (Prometheus), observabilidade (Datadog), visualização (Grafana), dicas finais."
+            ],
+            opinion: "Os pré-requisitos são conhecimentos nas tecnologias que serão abordadas no curso. Pela ementa aparenta ser mais voltado para o Hands-On. Uma ótima forma de trabalhar com as principais ferramentas da base de DevOps e aprender melhores práticas para o desenvolvimento e criação de novas soluções. É um treinamento curto, não vai aprofundar nas tecnologias então é válido estar na trilha, porém não como primeiro item."
+        },
+        {
+            id: 'redes-ccna',
+            title: 'Curso Completo Cisco CCNA R&S 200-125',
+            platform: 'Udemy',
+            instructor: 'André Iacono',
+            duration: '~50h', 
+            cost: 'R$190,90 (promoção até R$27,90)',
+            match: '10/10',
+            summary: 'Prepara para a certificação Cisco CCNA 200-125, com foco em aulas práticas, abordando operação de redes IP, segurança, roteamento, comutação e tópicos emergentes.',
+            ementa: [
+                "<strong>Operação de Redes IP:</strong> Compreensão do propósito e funcionamento de dispositivos de rede como roteadores, switches, bridges e hubs.",
+                "<strong>Seleção de Componentes de Rede:</strong> Habilidade para escolher os componentes necessários para atender a especificações de rede.",
+                "<strong>Aplicações e Impacto na Rede:</strong> Identificação de aplicações comuns e seu impacto sobre o desempenho da rede.",
+                "<strong>Modelos OSI e TCP/IP:</strong> Descrição da finalidade e funcionamento básico dos protocolos nos modelos OSI e TCP/IP.",
+                "<strong>Fluxo de Dados:</strong> Previsão do fluxo de dados entre dois hosts através de uma rede.",
+                "<strong>Conectividade de Rede:</strong> Identificação da mídia apropriada, cabos, portas e conectores para interligar dispositivos de rede Cisco com outros dispositivos e hosts em uma LAN.",
+                "<strong>Configuração Prática:</strong> Prática com laboratórios de configuração de roteadores e switches Cisco."
+            ],
+            opinion: "O curso CCNA R&S 200-125 oferece uma base robusta sobre redes, essencial para DevOps. Conteúdo aplicável em diversos cenários e fundamental para o início da trilha."
+        },
+        {
+            id: 'linux-admin',
+            title: 'Linux Admin',
+            platform: 'LinuxTips',
+            instructor: 'Jeferson Fernando, Gleydson Mazioli',
+            duration: '~40h', 
+            cost: 'Acesso existente',
+            match: '10/10',
+            summary: 'Curso abrangente de administração Linux, desde fundamentos até tópicos avançados, preparando para certificações LPIC-1 e LFD301.',
+            ementa: [
+                "<strong>Módulo 1 - INTRODUÇÃO AO SISTEMA OPERACIONAL LINUX:</strong> Características do Linux, distribuições, software livre.",
+                "<strong>Módulo 2 - NOÇÕES DE HARDWARE, SOFTWARE E ARQUIVOS:</strong> Interações, dispositivos, manipulação de arquivos e diretórios.",
+                "<strong>Módulo 3 - COMANDOS E EXECUÇÃO NO LINUX:</strong> Prática no terminal, comandos essenciais, gerenciamento de processos e usuários.",
+                "<strong>Módulo 4 - ADMINISTRAÇÃO E DESENVOLVIMENTO NO LINUX:</strong> Instalação de distribuições, gerenciamento de pacotes (DEB e RPM), administração de serviços, scripts para automação, introdução a Docker e Containers.",
+                "<strong>Módulo 5 - OTIMIZAÇÃO E AGENDAMENTO DE WORKLOADS:</strong> Otimização de alocação de workloads e agendamento eficiente no cluster Kubernetes, Taints, Selectors, Annotations, Labels, Toleration e Affinity, RBAC e Network Policies, Networking Policies no EKS.",
+                "<strong>Módulo 6 - ENCERRAMENTO E CONSOLIDAÇÃO DOS CONHECIMENTOS:</strong> Revisão, RBAC no Kubernetes, Helm para empacotamento e distribuição, consolidação de conceitos para ambientes reais."
+            ],
+            opinion: "Treinamento robusto e completo, essencial para a base de DevOps. Conteúdo prático e alinhado com as necessidades do mercado."
+        },
+        {
+            id: 'linux-engineer',
+            title: 'Linux Engineer',
+            platform: 'LinuxTips',
+            instructor: 'Jeferson Fernando, Gleydson Mazioli',
+            duration: '+32H',
+            cost: 'R$799,00',
+            match: '8/10',
+            summary: 'Aprofundamento em Linux, serviços de rede e preparação para LPIC-2. Cobre planejamento, administração, redes, segurança e performance.',
+            ementa: [
+                "<strong>Módulo 1 - PLANEJAMENTO E ADMINISTRAÇÃO DE SISTEMAS:</strong> Planejamento de capacidade, kernel Linux, inicialização do sistema, sistemas de arquivos, RAID e LVM.",
+                "<strong>Módulo 2 - REDE, SEGURANÇA E MANUTENÇÃO DE SISTEMAS:</strong> Configuração e resolução de problemas de rede (VLANs), gerenciamento de backups, VPNs, manutenção e recuperação de sistemas, forense digital.",
+                "<strong>Módulo 3 - REDES, PERFORMANCE E SERVIÇOS WEB:</strong> Conceitos de redes, camadas, VLANs e VXLANs, depuração de problemas de rede, gerenciamento de backups, VPNs, ajuste de performance de serviços web e APIs, configuração de tempo e gerenciamento de caches e redes de distribuição de conteúdo.",
+                "<strong>Módulo 4 - SERVIÇOS DE SISTEMA E PERFORMANCE:</strong> Gerenciamento de serviços essenciais (DNS, DHCP, web servers, e-mail), gerenciamento de recursos e performance de sistemas, tuning de APIs e análise de desempenho, técnicas para otimizar alta performance de navegação."
+            ],
+            opinion: "Complemento ao Linux Admin, aprofundando em gerenciamento avançado. Válido como material de aprendizagem continuada ou para introduzir tópicos de redes."
+        },
+        {
+            id: 'windows-server',
+            title: 'MCSA Windows Server 2016 - Azure Storage',
+            platform: 'Udemy',
+            instructor: 'DICARJ & BorapraNuvem!',
+            duration: '47,5 horas',
+            cost: 'R$206,90 (promoção até R$29,90)',
+            match: '2/10',
+            summary: 'Prepara para certificação MCSA Windows Server 2016, combinando administração de servidores Windows com gerenciamento de Azure Storage.',
+            ementa: [
+                "<strong>MCSA Windows Server 2016 (Tópicos Comuns):</strong> Instalação, gerenciamento e monitoramento de servidores Windows Server 2016, armazenamento local, storage spaces e deduplication, redes (DNS, DHCP, VPN, DirectAccess), Active Directory Domain Services (AD DS), gerenciamento de máquinas virtuais com Hyper-V, implementação de alta disponibilidade com Failover Clustering, segurança do servidor.",
+                "<strong>Azure Storage (Tópicos Comuns):</strong> Tipos de armazenamento no Azure (Blobs, Files, Queues, Tables, Disks), redundância, segurança, gerenciamento de contas, ferramentas de acesso e gerenciamento de dados."
+            ],
+            opinion: "Irrelevante para a stack atual da empresa. Válido como diferencial de carreira futuro, mas não prioritário para a trilha atual."
+        },
+        {
+            id: 'virtualizacao',
+            title: 'Playlist Virtualização no YouTube',
+            platform: 'YouTube - Hardware Redes Brasil',
+            instructor: 'Alfredo Junior, Gustavo Guanabara',
+            duration: '+5H',
+            cost: 'Gratuito',
+            match: '5/10',
+            summary: 'Conteúdo básico e prático sobre virtualização com VirtualBox e VMware, criação e gerenciamento de máquinas virtuais.',
+            ementa: [
+                "Como criar uma máquina virtual",
+                "Configurando uma máquina virtual",
+                "Instalando o Sistema Operacional na Máquina Virtual",
+                "Como otimizar uma máquina virtual",
+                "Como instalar o Linux na máquina virtual",
+                "Como instalar o Windows e Linux no mesmo computador",
+                "Como levar sua máquina virtual para outro computador",
+                "Criando máquina virtual como o VMWARE",
+                "Configuração de rede com o VMWARE",
+                "Compartilhamento de redes no VMWARE",
+                "Configurando rede no VirtuaBox"
+            ],
+            opinion: "Importante para ambientes de teste, mas não essencial para as demandas atuais da trilha DevOps. Pode ser conteúdo extra."
+        },
+        {
+            id: 'pfsense',
+            title: 'pfSense Firewall',
+            platform: 'Udemy',
+            instructor: 'FAME Treinamentos',
+            duration: '~10h', 
+            cost: 'R$176,90 (promoção até R$27,90)',
+            match: '10/10',
+            summary: 'Treinamento abrangente sobre instalação, configuração e gerenciamento do PfSense como solução de firewall, cobrindo segurança, VPNs e serviços de rede.',
+            ementa: [
+                "<strong>Conhecendo o pfSense</strong>",
+                "<strong>Instalando o pfSense</strong>",
+                "<strong>Primeiras configurações</strong>",
+                "<strong>Serviços iniciais do pfSense</strong>",
+                "<strong>Trabalhando com VPN</strong>",
+                "<strong>Trabalhando com VIP (Virtual IP)</strong>",
+                "<strong>Gateway, Roteamento e Limitadores no pfSense</strong>",
+                "<strong>Failover e Load Balance entre WANs</strong>",
+                "<strong>Trabalhando com captive portal</strong>",
+                "<strong>Ferramentas de diagnóstico do pfSense</strong>",
+                "<strong>Squid no pfSense</strong>",
+                "<strong>SquidGuard no pfSense</strong>",
+                "<strong>Squid com Active Directory</strong>"
+            ],
+            opinion: "Curso específico e necessário para a trilha e para a estrutura da empresa, pois é uma tecnologia utilizada internamente. Adiciona noções de rede e segurança."
+        },
+        {
+            id: 'git',
+            title: 'Git - Curso Completo no YouTube',
+            platform: 'YouTube - Curso em Vídeo',
+            instructor: 'Gustavo Guanabara',
+            duration: '~10h', 
+            cost: 'Gratuito (certificado pago)',
+            match: '10/10',
+            summary: 'Aborda de forma simples e direta os conceitos de controle de versão com Git e GitHub, com abordagem hands-on e teórica.',
+            ementa: [
+                "<strong>O que é o Git</strong>, como ele funciona e por que ele é a base do versionamento de código moderno;",
+                "<strong>O que é o GitHub</strong> e como usá-lo como plataforma colaborativa para projetos open source, acadêmicos ou profissionais;",
+                "Como <strong>criar, clonar e gerenciar repositórios</strong>, tanto locais quanto remotos;",
+                "Como <strong>acompanhar o histórico das alterações</strong> feitas no código, entender <strong>commits</strong>, e voltar versões sempre que necessário;",
+                "Como utilizar <strong>Issues, pull requests</strong> e <strong>escrever documentação em Markdown</strong>;",
+                "A importância dos <strong>branches</strong> para desenvolvimento simultâneo e colaborativo, sem bagunçar o código principal;",
+                "E ainda: como <strong>publicar sites gratuitamente com GitHub Pages</strong>, dando vida aos seus projetos web de forma rápida e eficaz."
+            ],
+            opinion: "Curso necessário e alinhado com as demandas da empresa (GitLab). Essencial para a carreira e bem posicionado na trilha."
+        },
+        {
+            id: 'gitlab',
+            title: 'GitLab - Curso Completo no YouTube',
+            platform: 'YouTube - Wikki Brasil',
+            instructor: 'Thalis Otávio',
+            duration: '~8h', 
+            cost: 'Gratuito',
+            match: '10/10',
+            summary: 'Ensina conceitos de controle de versão e expande para o uso de GitLab, com foco prático.',
+            ementa: [
+                "<strong>Módulo Básico:</strong> Introdução e preparação de ambiente, reforçando funcionamento do git, inicializando um repositório Git, operações básicas (Commit, análise de histórico, voltar a estado anterior e remover arquivos que foram adicionados).",
+                "<strong>Módulo Intermediário:</strong> Usando branchs, trabalhando com clone e push, criando merge a partir de outra branch, utilização de comandos fetch e pull, trabalhando com tags.",
+                "<strong>Módulo Avançado:</strong> Navegando e conhecendo GitLab (Criação de repositórios, comandos clone e pull), adição de colaboradores ao projeto, consulta de histórico de commits e branches, Merge pelo GitLab, Issues, milestones e labels no GitLab, Fluxo de trabalho Git e as melhores práticas."
+            ],
+            opinion: "Curso simples e direto, focado em GitLab, ferramenta utilizada na empresa. Combina perfeitamente com o momento e é necessário para a trilha."
+        },
+        {
+            id: 'docker',
+            title: 'Descomplicando o Docker',
+            platform: 'LinuxTips',
+            instructor: 'Jeferson Fernando',
+            duration: '~15h', 
+            cost: 'R$639,00',
+            match: '10/10',
+            summary: 'Capacita o aluno a se tornar especialista em Docker, ensinando a empacotar aplicações, gerenciar imagens, segurança, otimização, armazenamento, redes e orquestração.',
+            ementa: [
+                "<strong>Módulo 1: FUNDAMENTOS DO DOCKER E PRIMEIROS PASSOS:</strong> Introdução ao Docker, conceitos essenciais, instalação e configuração, comandos essenciais, execução do primeiro container.",
+                "<strong>Módulo 2: CRIAÇÃO E GERENCIAMENTO DE IMAGENS DOCKER:</strong> Criação de imagens otimizadas, Dockerfiles, melhores práticas, gerenciamento de imagens (listar, remover, compartilhar), Docker Hub e repositórios privados.",
+                "<strong>Módulo 3: SEGURANÇA E OTIMIZAÇÃO DE IMAGENS:</strong> Identificação de vulnerabilidades, correção de falhas de segurança, uso do Distroless, melhores práticas de segurança, monitoramento e auditoria.",
+                "<strong>Módulo 4: GERENCIAMENTO DE ARMAZENAMENTO E REDES:</strong> Trabalho com volumes e persistência de dados, tipos de armazenamento (bind mounts, volumes, tmpfs), configuração de redes Docker, comunicação entre containers, boas práticas de segurança em redes Docker.",
+                "<strong>Módulo 5: ORQUESTRAÇÃO E ESCALABILIDADE:</strong> Uso do Docker Compose, introdução a ferramentas de orquestração (Hashicorp Nomad, Kubernetes, Docker Swarm), criação e gerenciamento de clusters com Docker Swarm."
+            ],
+            opinion: "Formação completa e específica sobre Docker, com hands-on e integração com ferramentas de orquestração. Tecnologia essencial para DevOps e utilizada na empresa."
+        },
+        {
+            id: 'kubernetes',
+            title: 'Descomplicando o Kubernetes 2024',
+            platform: 'LinuxTips',
+            instructor: 'Jeferson Fernando',
+            duration: '~35h', 
+            cost: 'R$719,00',
+            match: '10/10',
+            summary: 'Treinamento completo para se tornar especialista em Kubernetes, cobrindo Helm, Kyverno, Kube-Prometheus, Cert-Manager e mais.',
+            ementa: [
+                "<strong>Módulo 1 - INTRODUÇÃO AO KUBERNETES E CONTAINERS:</strong> Conceitos fundamentais de containers e Kubernetes, Pods e limites de recursos (CPU, memória), Deployments e estratégias de rollout, ReplicaSets, DaemonSets e Probes.",
+                "<strong>Módulo 2 - INFRAESTRUTURA E ARMAZENAMENTO NO KUBERNETES:</strong> Criação de clusters Kubernetes multi-nós, gerenciamento de volumes, StatefulSets e Services, Secrets e ConfigMaps.",
+                "<strong>Módulo 3 - GERENCIAMENTO DE TRÁFEGO E SEGURANÇA:</strong> Configuração de Ingress, TLS e Cert-manager, Networking Policies e exploração do EKS, gerenciamento de permissões com RBAC.",
+                "<strong>Módulo 4 - MONITORAMENTO E OBSERVABILIDADE:</strong> Implementação do Kube-Prometheus no EKS, criação de imagens seguras com Wolfi, Service Monitors, PodMonitors e configuração de alertas, uso do Helm.",
+                "<strong>Módulo 5 - OTIMIZAÇÃO E AGENDAMENTO DE WORKLOADS:</strong> Otimização da alocação de workloads, agendamento eficiente, Taints, Selectors, Annotations, Labels, Toleration e Affinity, RBAC e Network Policies, Networking Policies no EKS.",
+                "<strong>Módulo 6 - ENCERRAMENTO E CONSOLIDAÇÃO DOS CONHECIMENTOS:</strong> Revisão, RBAC no Kubernetes, Helm para empacotamento e distribuição, consolidação de conceitos para ambientes reais."
+            ],
+            opinion: "Formação de alto nível em orquestração de containers. Abrange desde a criação de clusters até monitoramento avançado, segurança e otimização. Essencial para a empresa e mercado."
+        },
+        {
+            id: 'helm',
+            title: 'Descomplicando o Helm',
+            platform: 'LinuxTips',
+            instructor: 'Jeferson Fernando',
+            duration: '~5h', 
+            cost: 'R$150,00',
+            match: '7/10',
+            summary: 'Workshop prático sobre Helm para gerenciamento de aplicações em Kubernetes, cobrindo criação, instalação, atualização de Charts, helpers e repositórios.',
+            ementa: [
+                "<strong>Introdução ao Helm:</strong> O que é o Helm e o que é um Chart.",
+                "<strong>Criação e Instalação de Charts:</strong> Como criar, instalar e atualizar o primeiro Chart.",
+                "<strong>Funcionalidades Avançadas do Helm:</strong> Utilização de range, if, default, toYaml e toJson no Helm.",
+                "<strong>Helpers no Helm:</strong> Conceitos de Helpers, por que usá-los, criação e exemplos práticos de Helpers avançados.",
+                "<strong>Refatoração de Aplicações com Helpers:</strong> Criação do arquivo _helpers.tpl e refatoração de arquivos Deployments.yaml, Services.yaml e ConfigMaps.",
+                "<strong>Repositórios de Helm Charts:</strong> Criação de repositórios no Github, inicialização e configuração do GitHub Pages para Charts.",
+                "<strong>Utilização de Repositórios de Helm Charts:</strong> Como utilizar o repositório de Helm Charts criado."
+            ],
+            opinion: "Treinamento focado e prático, ideal para quem já tem base em Kubernetes. Conteúdo direto e valioso para gerenciamento de aplicações."
+        },
+        {
+            id: 'gcp-gke',
+            title: 'GCP e GKE (Google Cloud Skills Boost)',
+            platform: 'Google Cloud Skills Boost',
+            instructor: 'Google',
+            duration: '~60h', 
+            cost: 'Gratuito (labs/certificações pagos)',
+            match: '10/10',
+            summary: 'Cursos e trilhas de aprendizado focados em Google Cloud Platform e Google Kubernetes Engine, cobrindo infraestrutura, serviços e orquestração de containers.',
+            ementa: [
+                "<strong>Fundamentos do Google Cloud Platform:</strong> Visão geral da infraestrutura e dos serviços do GCP (Compute Engine, Cloud Storage, Networking), gerenciamento de identidade e acesso (IAM), custo e faturamento na nuvem.",
+                "<strong>Google Kubernetes Engine (GKE):</strong> Introdução ao Kubernetes e seus conceitos (Pods, Deployments, Services), criação e gerenciamento de clusters GKE, deployment e escalabilidade de aplicações no GKE, gerenciamento de armazenamento e redes no GKE, monitoramento e logs com Cloud Monitoring e Cloud Logging, segurança no GKE (RBAC, Network Policies), tópicos avançados como node pools, autoscaling, load balancing e ingress.",
+                "<strong>Integração com Outros Serviços GCP:</strong> Utilização de Cloud SQL, Cloud Datastore ou outros bancos de dados, integração com Cloud Build, Cloud Source Repositories para CI/CD, uso de Cloud Functions ou Cloud Run para arquiteturas serverless."
+            ],
+            opinion: "Essencial para a empresa (usuária de GCP) e para o mercado DevOps. Plataforma oferece aprendizado prático e prepara para certificações."
+        },
+        {
+            id: 'terraform',
+            title: 'Descomplicando o Terraform',
+            platform: 'LinuxTips',
+            instructor: 'Rafael Gomex',
+            duration: '~20h', 
+            cost: 'R$719,00',
+            match: '10/10',
+            summary: 'Curso prático de Terraform, desde conceitos básicos até construção de módulos e integração com outras ferramentas, com foco no "porquê" de cada comando.',
+            ementa: [
+                "<strong>Módulo 1 - FUNDAMENTOS DO TERRAFORM:</strong> Conceitos básicos do Terraform, sua linguagem de configuração (HCL) e estrutura de arquivos essenciais, comandos essenciais do Terraform e uso de variáveis.",
+                "<strong>Módulo 2 - STATE FILE E ARMAZENAMENTO SEGURO:</strong> Conceito de state file e sua importância, melhores práticas para armazenamento e proteção, organização do state file e manipulação via CLI.",
+                "<strong>Módulo 3 - MODULARIZAÇÃO E TROUBLESHOOTING:</strong> Criação de módulos para estruturar códigos, exploração de dependências entre recursos, métodos para identificar e corrigir erros comuns.",
+                "<strong>Módulo 4 - CONTROLE DE CÓDIGO E TERRAFORM CLOUD:</strong> Uso de condições (if), laço for_each, blocos dinâmicos e interpolação de variáveis, aplicação de restrições de tipo, introdução ao Terraform Cloud.",
+                "<strong>Módulo 5 - INTRODUÇÃO AO PACKER E INTEGRAÇÃO COM TERRAFORM:</strong> Conceito do Packer, estrutura de código e comandos, melhores práticas de uso, troubleshooting no Packer.",
+                "<strong>Módulo 6 - TRABALHANDO COM PIPELINES E MULTICLOUD:</strong> Criação e gerenciamento de pipelines centralizados, utilização do Terraform em diferentes APIs e fora de contextos de nuvem, gerenciamento de recursos em diferentes provedores de nuvem, conclusão e trabalho final."
+            ],
+            opinion: "Excelente para aprofundar em Infraestrutura como Código. Ementa bem estruturada, explicando conceitos e melhores práticas. Abordagem prática é um grande benefício."
+        },
+        {
+            id: 'ansible',
+            title: 'Curso de Ansible no YouTube',
+            platform: 'YouTube - Mário Santana',
+            instructor: 'Mário Santana',
+            duration: '~12h', 
+            cost: 'Gratuito',
+            match: '9/10',
+            summary: 'Curso/workshop gratuito sobre Ansible, explicando a ferramenta, seus usos e com labs práticos.',
+            ementa: [
+                "<strong>Fundamentos de Ansible (o que é)</strong>",
+                "<strong>Preparando ambiente de LAB</strong>",
+                "<strong>Execução de primeiros comandos</strong>",
+                "<strong>Criação de Playbooks</strong>",
+                "<strong>Provisionamento de servidores</strong>",
+                "<strong>Projeto</strong>"
+            ],
+            opinion: "Válido por estar na stack da empresa e ser amplamente utilizado. Ferramenta de automação que facilita escalabilidade. Bem posicionado no roadmap."
+        },
+        {
+            id: 'argocd',
+            title: 'Descomplicando GitOps no Kubernetes com Argo CD',
+            platform: 'LinuxTips',
+            instructor: 'Bernardo Lopes',
+            duration: '~20h', 
+            cost: 'R$599,00',
+            match: '10/10',
+            summary: 'Focado em capacitar profissionais a utilizar ArgoCD para entrega contínua e confiável de aplicações, explorando rollouts canary e blue-green.',
+            ementa: [
+                "<strong>Módulo 1 - INTRODUÇÃO AO ARGOCD E PRIMEIROS PASSOS:</strong> Visão geral do ArgoCD, componentes, benefícios, configuração de ambiente de teste e instalação com Helm e Minikube.",
+                "<strong>Módulo 2 - GERENCIAMENTO DE APLICAÇÕES E CONFIGURAÇÕES:</strong> Conceitos e funcionalidades de Applications (Repositories, Applications e Projects), integração com Kustomization e Helm, configuração de repositórios Git, tipos de sincronização (automática e manual) e Sync Windows.",
+                "<strong>Módulo 3 - APPLICATIONSETS E GIT FILE NO ARGOCD:</strong> Introdução aos ApplicationSets, configuração de Webhooks, utilização de arquivos Git como fonte, implementação de alterações via Pull Requests.",
+                "<strong>Módulo 4 - ARGO ROLLOUTS E ESTRATÉGIAS AVANÇADAS DE IMPLANTAÇÃO:</strong> Visão geral do Argo Rollouts, instalação e configuração, conceitos e componentes, implementação de deploys canário e blue-green.",
+                "<strong>Módulo 5 - SEGURANÇA E CONTROLE DE ACESSOS NO ARGOCD:</strong> Políticas de segurança, gerenciamento de usuários e grupos, configuração de RBAC, integração com OIDC via DEX.",
+                "<strong>Módulo 6 - MONITORAMENTO E LOGS NO ARGOCD:</strong> Configuração de Prometheus e Grafana, alertas e notificações, integração com sistemas de logs."
+            ],
+            opinion: "100% de acordo com os objetivos da empresa e alinhado com o roadmap, dado o uso de GitOps com ArgoCD para CI/CD. Ferramenta essencial."
+        },
+        {
+            id: 'linux-force-engenheiro',
+            title: 'Engenheiro de Redes e Sistemas Linux com Segurança',
+            platform: 'Linux Force Security',
+            instructor: 'Linux Force',
+            duration: '~80h', 
+            cost: 'R$990,00 (à vista) / R$1.199,00 (parcelado)',
+            match: '10/10',
+            summary: 'Curso abrangente desde o nível básico do Linux até a configuração dos principais servidores Linux, incluindo Shell Bash, Hardware, Sistemas em Rede, Administração Unix, Shell Script, Princípios de Segurança, Domain Name System, OpenLDAP, Mail Transfer Agent, Serviços Web, RAID, LVM, NFS e Samba Server.',
+            ementa: [
+                "<strong>Nível básico do Linux</strong> até a configuração dos principais servidores Linux.",
+                "<strong>Shell Bash, Hardware e Dispositivos, Sistemas em Rede.</strong>",
+                "<strong>Administração de Ambiente e Usuários Unix, Shell Script.</strong>",
+                "<strong>Princípios de Segurança, Domain Name System (DNS), OpenLDAP, Mail Transfer Agent (MTA), Serviços Web.</strong>",
+                "<strong>RAID, LVM, NFS e Samba Server.</strong>"
+            ],
+            opinion: "Conteúdo base e de redes abrange todos os tópicos mais importantes para o início do roadmap e as tecnologias estão de acordo com os roadmaps e trilhas propostas. Excelente para o início da trilha."
+        },
+        {
+            id: 'linux-force-devops',
+            title: 'Formação DevOps (Linux Force)',
+            platform: 'Linux Force Security',
+            instructor: 'Linux Force',
+            duration: '~50h',
+            cost: 'Grátis (na compra do Engenheiro de Redes e Sistemas Linux)',
+            match: '7/10',
+            summary: 'Cobre Linux, Git, Github, Vagrant, Ansible, Puppet, Grafana, Docker e Kubernetes. Prepara para desenvolvimento e implementação contínuos, automação e colaboração.',
+            ementa: [
+                "Linux, Git, Github, Vagrant, Ansible, Puppet.",
+                "Grafana, Docker e Kubernetes.",
+                "Especialização em desenvolvimento e implementação contínuos.",
+                "Automação do gerenciamento de configurações.",
+                "Colaboração entre equipes."
+            ],
+            opinion: "Apesar de ter muitas tecnologias e ter a abordagem hands-on, não tem conteúdo de cloud e é focado em outras tecnologias que não são utilizadas na empresa. A nota só está assim porque comprando a formação de linux essa sai de graça, então 'compensa' como material complementar."
+        }
+    ];
+
+    // Swipe navigation variables
+    let touchstartX = 0;
+    let touchendX = 0;
+    const gestureZone = document.querySelector('main');  // O container das abas
+
+    function checkDirection() {
+        if (touchendX < touchstartX - 50) { // Deslizou para a esquerda (próxima aba)
+            nextTab();
+        }
+        if (touchendX > touchstartX + 50) { // Deslizou para a direita (aba anterior)
+            prevTab();
+        }
+    }
+
+    // Mobile tip popup logic
+    function checkAndShowMobileTip() {
+        const mobileTipPopup = document.getElementById('mobileTipPopup');
+        // Verifica se a largura da tela é menor que o breakpoint md (768px padrão do Tailwind)
+        if (window.innerWidth < 768) {
+            // Mostra a dica se ela ainda não foi mostrada nesta sessão do navegador
+            if (!sessionStorage.getItem('devops_mobile_tip_shown')) {
+                mobileTipPopup.classList.add('show');
+                setTimeout(() => {
+                    mobileTipPopup.classList.remove('show');
+                    setTimeout(() => { mobileTipPopup.style.display = 'none'; }, 500); // Esconde após a transição
+                }, 5000); // Mostra por 5 segundos
+                sessionStorage.setItem('devops_mobile_tip_shown', 'true'); // Marca como mostrado para não exibir novamente
+            }
+        } else { // Se a tela for grande, garante que o popup esteja oculto
+            mobileTipPopup.classList.remove('show');
+            mobileTipPopup.style.display = 'none';
+        }
+    }
+
+    // Chama checkAndShowMobileTip ao carregar a página e ao redimensionar a janela
+    window.addEventListener('load', checkAndShowMobileTip);
+    window.addEventListener('resize', checkAndShowMobileTip);
+    // Também adicionei uma chamada a checkAndShowMobileTip dentro de openTab()
+    // para reavaliar a exibição da dica ao mudar de aba, caso o usuário redimensione a tela no meio da sessão.
+
+    // Adiciona event listeners para detectar o toque inicial e final na área das abas
+    gestureZone.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    });
+
+    gestureZone.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        checkDirection();
+    });
+    const tabIds = ['introducao', 'objetivos', 'trilha', 'comparativo', 'custos', 'comparativo-plataformas', 'agenda', 'beneficios', 'proximos-passos'];
+    let currentTabIndex = 0; // Initialize with the first tab
+
+    function openTab(event) {
+        let tabName;
+        if (event && event.currentTarget) { // Click event from tab button
+            tabName = event.currentTarget.dataset.tabId;
+            currentTabIndex = tabIds.indexOf(tabName);
+        } else { // Called programmatically by index
+            tabName = tabIds[currentTabIndex];
+        }
+
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("content-section");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("material-tab");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        
+        const activeTabButton = document.querySelector(`.material-tab[data-tab-id="${tabName}"]`);
+        if (activeTabButton) {
+            activeTabButton.classList.add("active");
+            // Scroll the navigation bar to make the active tab visible
+            activeTabButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+
+        document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (tabName === 'custos') {
+            renderCostChart();
+        } else if (tabName === 'comparativo-plataformas') {
+            renderComparativePlatformsChart(); // Call for the new chart
+        }
+        updateNavigationButtons();
+        updateTabProgressBar();
+    }
+
+    function nextTab() {
+        if (currentTabIndex < tabIds.length - 1) {
+            currentTabIndex++;
+            openTab(null);
+        }
+    }
+
+    function prevTab() {
+        if (currentTabIndex > 0) {
+            currentTabIndex--;
+            openTab(null);
+        }
+    }
+
+    function updateNavigationButtons() {
+        const prevBtn = document.getElementById('prevTabBtn');
+        const nextBtn = document.getElementById('nextTabBtn');
+
+        if (prevBtn) {
+            prevBtn.disabled = (currentTabIndex === 0);
+        }
+        if (nextBtn) {
+            nextBtn.disabled = (currentTabIndex === tabIds.length - 1);
+        }
+    }
+
+    function updateTabProgressBar() {
+        const totalTabs = tabIds.length;
+        const progress = totalTabs > 1 ? (currentTabIndex / (totalTabs - 1)) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+    }
+
+    function populateCourses() {
+        const courseList = document.getElementById('course-list');
+        courseList.innerHTML = '';
+        coursesData.forEach(course => {
+            // Filter out courses that are not part of the core 6-month plan or are explicitly optional/post-program
+            if (!['windows-server', 'linux-engineer', 'virtualizacao', 'redes-ccna', 'linux-admin', 'linux-force-devops'].includes(course.id)) {
+                const card = `
+                    <div class="course-card bg-white rounded-lg shadow-lg p-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-secondary-dark">${course.title}</h3>
+                            <p class="text-sm text-gray-600 mb-1"><strong>Plataforma:</strong> ${course.platform}</p>
+                            <p class="text-sm text-gray-600 mb-1"><strong>Duração Estimada:</strong> <span class="badge badge-blue">${course.duration}</span></p>
+                            <p class="text-sm text-gray-600 mb-1"><strong>Custo:</strong> <span class="badge badge-green">${course.cost}</span></p>
+                            <p class="text-sm text-gray-600 mb-3"><strong>Match:</strong> <span class="badge ${getMatchBadgeColor(course.match)}">${course.match}</span></p>
+                            <p class="text-gray-700 text-sm mb-3">${course.summary}</p>
+                        </div>
+                        <button class="btn-primary mt-auto text-sm py-2" onclick="openModal('${course.id}')">Ver Detalhes</button>
+                    </div>
+                `;
+                courseList.innerHTML += card;
+            }
+        });
+    }
+
+    function getMatchBadgeColor(match) {
+        const numericMatch = parseInt(match.split('/')[0]);
+        if (numericMatch >= 9) return 'badge-green';
+        if (numericMatch >= 7) return 'badge-amber';
+        return 'badge-red';
+    }
+    
+    let costChartInstance = null;
+    function renderCostChart() {
+        const ctx = document.getElementById('costChart').getContext('2d');
+        const costs = {
+            linuxTipsAvulso: 3465,
+            udemyAvulso: 574.70,
+            gratuitoCreditos: 0,
+            aluraAvulso: 2580, // Alura Anual Ultra
+        };
+
+        if (costChartInstance) {
+            costChartInstance.destroy();
+        }
+
+        costChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'LinuxTips (Avulso)', 'Udemy (Avulso)', 'Assinatura Alura (Plano Anual Ultra)'
+                ],
+                datasets: [{
+                    label: 'Custo Estimado (R$)',
+                    data: [
+                        costs.linuxTipsAvulso, costs.udemyAvulso, costs.aluraAvulso
+                    ],
+                    backgroundColor: [
+                        '#2475a0', '#0b9cc8', '#27ae60'
+                    ],
+                    borderColor: [
+                        '#2475a0', '#0b9cc8', '#27ae60'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += 'R$ ' + context.parsed.y.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Custos Estimados da Trilha (Aquisição Avulsa)',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+    }
+
+    let comparativePlatformsChartInstance = null;
+    function renderComparativePlatformsChart() {
+        const ctx = document.getElementById('comparativePlatformsChart').getContext('2d');
+        const costs = {
+            linuxTipsAvulso: 3465,
+            udemyAvulso: 574.70,
+            gratuitoCreditos: 0,
+            linuxForceAvulso: 990,
+            aluraAnualPlus: 1308,
+            aluraAnualPro: 1788,
+            aluraAnualUltra: 2580,
+            rocketseatAnualPromo: 2597,
+            rocketseatFormacaoDevOpsPromo: 1096.70,
+            kodekloud6Meses: 994.50,
+            fullCycleVitalicio: 3500, // Avg of 3408-3600
+            techworldNana: 8670
+        };
+
+        if (comparativePlatformsChartInstance) {
+            comparativePlatformsChartInstance.destroy();
+        }
+
+        comparativePlatformsChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'LinuxTips (Avulso)', 'Udemy (Avulso)', 'Linux Force Security',
+                    'Alura (Anual Plus)', 'Alura (Anual Pro)', 'Alura (Anual Ultra)',
+                    'Rocketseat (Anual Promo)', 'Rocketseat (Form. DevOps Promo)',
+                    'KodeKloud (6 Meses)', 'FullCycle 4.0 (Vitalício)', 'Techworld with Nana'
+                ],
+                datasets: [{
+                    label: 'Custo Estimado (R$)',
+                    data: [
+                        costs.linuxTipsAvulso, costs.udemyAvulso, costs.linuxForceAvulso,
+                        costs.aluraAnualPlus, costs.aluraAnualPro, costs.aluraAnualUltra,
+                        costs.rocketseatAnualPromo, costs.rocketseatFormacaoDevOpsPromo,
+                        costs.kodekloud6Meses, costs.fullCycleVitalicio, costs.techworldNana
+                    ],
+                    backgroundColor: [
+                        '#2475a0', '#0b9cc8', '#27ae60', // LinuxTips, Udemy, Linux Force
+                        '#00a896', '#00a896', '#00a896', // Alura (Vibrant Teal)
+                        '#e69807', '#e69807', // Rocketseat (Amber)
+                        '#8e44ad', '#e74c3c', '#f1c40f' // KodeKloud, FullCycle, Techworld with Nana (Purple, Red, Yellow)
+                    ],
+                    borderColor: [
+                        '#2475a0', '#0b9cc8', '#27ae60',
+                        '#00a896', '#00a896', '#00a896',
+                        '#e69807', '#e69807',
+                        '#8e44ad', '#e74c3c', '#f1c40f'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + value.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += 'R$ ' + context.parsed.y.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Comparativo de Custos entre Todas as Plataformas',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+    }
+
+    function openModal(courseId) {
+        const course = coursesData.find(c => c.id === courseId);
+        if (!course) return;
+
+        document.getElementById('modalTitle').textContent = course.title;
+        document.getElementById('modalPlatform').textContent = course.platform;
+        document.getElementById('modalInstructor').textContent = course.instructor;
+        document.getElementById('modalDuration').textContent = course.duration;
+        document.getElementById('modalCost').textContent = course.cost;
+        document.getElementById('modalMatch').textContent = course.match;
+        document.getElementById('modalMatch').className = `badge ${getMatchBadgeColor(course.match)}`;
+        document.getElementById('modalSummary').textContent = course.summary;
+        
+        const ementaContainer = document.getElementById('modalEmenta');
+        ementaContainer.innerHTML = '';
+        course.ementa.forEach(item => {
+            const p = document.createElement('p');
+            p.innerHTML = item; // Use innerHTML to render strong tags
+            p.className = 'mb-1';
+            ementaContainer.appendChild(p);
+        });
+
+        document.getElementById('modalOpinion').textContent = course.opinion;
+        document.getElementById('courseModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('courseModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('courseModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    document.addEventListener('DOMContentLoaded', () => {
+        populateCourses();
+        openTab({currentTarget: document.querySelector('.material-tab[data-tab-id="introducao"]')});
+
+        document.getElementById('prevTabBtn').addEventListener('click', prevTab);
+        document.getElementById('nextTabBtn').addEventListener('click', nextTab);
+    });
+
+</script>
+</body>
+</html>
